@@ -45,7 +45,7 @@ Please note that for now you have to manually set the `hardfork` in `Common` to 
 - Activation: `london`
 - Type: `2`
 
-This is the recommended tx type starting with the activation of the `london` HF, see the following code snipped for an example on how to instantiate:
+This is the recommended tx type starting with the activation of the `london` HF, see the following code snippet for an example on how to instantiate:
 
 ```typescript
 import Common from '@ethereumjs/common'
@@ -78,7 +78,7 @@ const tx = FeeMarketEIP1559Transaction.fromTxData(txData, { common })
 - Activation: `berlin`
 - Type: `1`
 
-This transaction type has been introduced along the `berlin` HF. See the following code snipped for an example on how to instantiate:
+This transaction type has been introduced along the `berlin` HF. See the following code snippet for an example on how to instantiate:
 
 ```typescript
 import Common from '@ethereumjs/common'

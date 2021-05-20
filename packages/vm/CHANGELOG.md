@@ -34,7 +34,7 @@ const common = new Common({ chain: 'mainnet', hardfork: 'berlin', eips: [ 3529 ]
 
 #### EIP-1559: Gas Fee Market
 
-The VM can now run `EIP-1559` compatible blocks (introduced with the `@ethereumjs/block` `v3.3.0` release) with `VM.runBlocks()` as well as `EIP-1559` txs with type `2` (introduced along the `@ethereumjs/tx` `v3.2.0` release), which can now be passed to `VM.runTx()` as the tx to be executed. Block and tx validation is happening accordingly and the gas calculation takes the new gas fee market parameters from the block (`baseFeePerGas`) and the tx(s) (`maxFeePerGas` and `maxPriorityFeePerGas` instead of a `gasPrice`) into account.
+The VM can now run `EIP-1559` compatible blocks (introduced with the `@ethereumjs/block` `v3.3.0` release) with `VM.runBlock()` as well as `EIP-1559` txs with type `2` (introduced along the `@ethereumjs/tx` `v3.2.0` release), which can now be passed to `VM.runTx()` as the tx to be executed. Block and tx validation is happening accordingly and the gas calculation takes the new gas fee market parameters from the block (`baseFeePerGas`) and the tx(s) (`maxFeePerGas` and `maxPriorityFeePerGas` instead of a `gasPrice`) into account.
 
 #### EIP-3198: BASEFEE Opcode
 
@@ -50,13 +50,13 @@ There is a new EVM Object Format (EOF) in preparation which will allow to valida
 
 ### StateManager: Preserve State History
 
-This VM release bumps the `merkle-patricia-tree` dependeny to `v4.2.0`, which is used as a datastore for the default `StateManager` implementation. The new MPT version switches to a default behavior to not delete any trie nodes on checkpoint commits, which has implications on the `StateManager.commit()` function which internally calls the MPT commit. This allows to go back to older trie states by setting a new (old) state root with `StateManager.setStateRoot()`. The trie state is now guaranteed to still be consistent and complete, which has not been the case before and lead to erraneous behaviour in certain usage scenarios (e.g. reported by HardHat).
+This VM release bumps the `merkle-patricia-tree` dependency to `v4.2.0`, which is used as a datastore for the default `StateManager` implementation. The new MPT version switches to a default behavior to not delete any trie nodes on checkpoint commits, which has implications on the `StateManager.commit()` function which internally calls the MPT commit. This allows to go back to older trie states by setting a new (old) state root with `StateManager.setStateRoot()`. The trie state is now guaranteed to still be consistent and complete, which has not been the case before and lead to erroneous behavior in certain usage scenarios (e.g. reported by HardHat).
 
 See PR [#1262](https://github.com/ethereumjs/ethereumjs-monorepo/pull/1262)
 
 ### Error Handling: Correct Non-VM Error Propagation
 
-In former versions of the VM non-VM errors happing inside the VM have been (unintentionally) shielded by a `try / catch` clause in the VM `Interpreter` class. This lead to existing bugs being hidden and channeled through as VM errors, which made it extremely difficult to trace such bugs down to the root cause. These kind of errors are now properly propagated and therefore lead to a break of the VM control flow. Please note that this might lead to your code breaking *if* you have got an error in your implementation (this should be a good this though since now this bug can finally be fixed 😀 ).
+In former versions of the VM non-VM errors happening inside the VM have been (unintentionally) shielded by a `try / catch` clause in the VM `Interpreter` class. This lead to existing bugs being hidden and channeled through as VM errors, which made it extremely difficult to trace such bugs down to the root cause. These kind of errors are now properly propagated and therefore lead to a break of the VM control flow. Please note that this might lead to your code breaking *if* you have got an error in your implementation (this should be a good this though since now this bug can finally be fixed 😀 ).
 
 See PR [#1168](https://github.com/ethereumjs/ethereumjs-monorepo/pull/1168)
 
